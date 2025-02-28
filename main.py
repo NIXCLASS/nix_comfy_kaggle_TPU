@@ -413,9 +413,9 @@ def main():
 
     subprocess.run([
             sys.executable, '-m',  'uv', 'pip', 'install',
-            'torch~=2.6.0', 'torch_xla[tpu]~=2.6.0',
+            'torch, 'torch_xla[tpu]',
             '-f', 'https://storage.googleapis.com/libtpu-releases/index.html',
-            '-f', 'https://storage.googleapis.com/libtpu-wheels/index.html','-q', '--system'
+            '-f', 'https://storage.googleapis.com/libtpu-wheels/index.html','-q', '--system', '--prerelease=allow'
         ], check=True, capture_output=True, text=True)
     print("torch and torch_xla[tpu] installed successfully.")
 
