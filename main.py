@@ -40,12 +40,12 @@ def install_package(url):
     try:
         print("="*60, f"Starting to install package from {url}...", "-"*60, sep="\n")
         package_name = url.split('/')[-1].replace('.git', '')
-        package_path = f"/kaggle/working/ComfyUI/custom_nodes/{package_name}"
+        package_path = f"/kaggle/working/ComfyUI-TPU/custom_nodes/{package_name}"
 
-        if not os.path.exists("/kaggle/working/ComfyUI/custom_nodes/"):
-            os.makedirs("/kaggle/working/ComfyUI/custom_nodes/")
+        if not os.path.exists("/kaggle/working/ComfyUI-TPU/custom_nodes/"):
+            os.makedirs("/kaggle/working/ComfyUI-TPU/custom_nodes/")
 
-        os.chdir("/kaggle/working/ComfyUI/custom_nodes")
+        os.chdir("/kaggle/working/ComfyUI-TPU/custom_nodes")
 
         if not os.path.exists(package_path):
             subprocess.run(['git', 'clone', url, '--recursive'], check=True, text=True, capture_output=True)
@@ -65,17 +65,17 @@ def setup_comfyui():
     """Set up ComfyUI and install necessary packages."""
     print("="*60, "Starting to set up ComfyUI...", "-"*60, sep="\n")
     os.chdir("/kaggle/working")
-    if not os.path.exists("/kaggle/working/ComfyUI/") or not os.path.exists("/kaggle/working/ComfyUI/requirements.txt") :
+    if not os.path.exists("/kaggle/working/ComfyUI-TPU/") or not os.path.exists("/kaggle/working/ComfyUI-TPU/requirements.txt") :
         subprocess.run(['git', 'clone', 'https://github.com/comfyanonymous/ComfyUI.git', '--recursive'], check=True, text=True, capture_output=True)
     os.chdir("ComfyUI")
     subprocess.run(['git', 'pull', '--all'])
     subprocess.run(['uv','pip', 'install', '--system', '-r', 'requirements.txt', '--quiet'])
 
     model_dirs = [
-        "/kaggle/working/ComfyUI/models/LLM",
-        "/kaggle/working/ComfyUI/models/pulid",
-        "/kaggle/working/ComfyUI/models/clip_vision",
-        "/kaggle/working/ComfyUI/models/xlabs/contronets/"
+        "/kaggle/working/ComfyUI-TPU/models/LLM",
+        "/kaggle/working/ComfyUI-TPU/models/pulid",
+        "/kaggle/working/ComfyUI-TPU/models/clip_vision",
+        "/kaggle/working/ComfyUI-TPU/models/xlabs/contronets/"
     ]
     for dir_path in model_dirs:
         os.makedirs(dir_path, exist_ok=True)
@@ -92,51 +92,51 @@ def link_models():
     print("="*60, "Starting to link models...", "-"*60, sep="\n")
     links = [
         ("/kaggle/input/clip-gmp-vit-l-14/tensorflow2/default/1/model.safetensors",
-         "/kaggle/working/ComfyUI/models/clip/CLIP_gmp_VIT_L_14.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/clip/CLIP_gmp_VIT_L_14.safetensors"),
         ("/kaggle/input/t5xxl_fp16.safetensors/tensorflow2/default/1/t5xxl_fp16.safetensors",
-         "/kaggle/working/ComfyUI/models/clip/t5xxl_fp16.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/clip/t5xxl_fp16.safetensors"),
         ("/kaggle/input/flux-vae-safetensors/pytorch/default/1/ae.safetensors",
-         "/kaggle/working/ComfyUI/models/vae/FLuX_ae.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/vae/FLuX_ae.safetensors"),
         ("/kaggle/input/florence2/transformers/default/1/Florence2_model_3/model.safetensors",
-         "/kaggle/working/ComfyUI/models/LLM/Florence_model_3.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/LLM/Florence_model_3.safetensors"),
         ("/kaggle/input/florence2/transformers/default/1/Florence2_model_2/model.safetensors",
-         "/kaggle/working/ComfyUI/models/LLM/Florence_model_2.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/LLM/Florence_model_2.safetensors"),
         ("/kaggle/input/controlnet/pytorch/flux-canny-controlnet/1/flux-canny-controlnet-v3.safetensors",
-         "/kaggle/working/ComfyUI/models/xlabs/contronets/flux-canny-controlnet-v3.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/xlabs/contronets/flux-canny-controlnet-v3.safetensors"),
         ("/kaggle/input/controlnet/pytorch/flux-depth-controlnet/1/flux-depth-controlnet-v3.safetensors",
-         "/kaggle/working/ComfyUI/models/xlabs/contronets/flux-depth-controlnet-v3.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/xlabs/contronets/flux-depth-controlnet-v3.safetensors"),
         ("/kaggle/input/realvisxl-v50/pytorch/default/1/realvisxl-v50.safetensors",
-         "/kaggle/working/ComfyUI/models/checkpoints/realvisxl-v50.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/checkpoints/realvisxl-v50.safetensors"),
         ("/kaggle/input/realvisxl-v50/pytorch/default/2/SG161222_RealVisXL_V5_0_Lightning.safetensors",
-         "/kaggle/working/ComfyUI/models/checkpoints/SG161222_RealVisXL_V5_0_Lightning.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/checkpoints/SG161222_RealVisXL_V5_0_Lightning.safetensors"),
         ("/kaggle/input/flux1devnf46stepsnsfw/pytorch/default/1/flux1DevNF46StepsNSFW_fluxdevFP86Steps.safetensors",
-         "/kaggle/working/ComfyUI/models/checkpoints/flux1DevNF46StepsNSFW_fluxdevFP86Steps.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/checkpoints/flux1DevNF46StepsNSFW_fluxdevFP86Steps.safetensors"),
         ("/kaggle/input/8stepscrearthyperfluxdevbnb_v24hyperdevfp8unet_/pytorch/default/1/8StepsCreartHyperFluxDevBnb_v24HyperDevFp8Unet.safetensors",
-         "/kaggle/working/ComfyUI/models/unet/8StepsCreartHyperFluxDevBnb_v24HyperDevFp8Unet.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/unet/8StepsCreartHyperFluxDevBnb_v24HyperDevFp8Unet.safetensors"),
         ("/kaggle/input/creart-hyper-flux-dev-gguf-q4_0/gguf/default/1/CreArt-Hyper-Flux-Dev-gguf-q4_0.gguf",
-         "/kaggle/working/ComfyUI/models/unet/CreArt-Hyper-Flux-Dev-gguf-q4_0.gguf"),
+         "/kaggle/working/ComfyUI-TPU/models/unet/CreArt-Hyper-Flux-Dev-gguf-q4_0.gguf"),
         ("/kaggle/input/unet/gguf/flux1-dev-q4_k_s/1/flux1-dev-Q4_K_S.gguf",
-         "/kaggle/working/ComfyUI/models/unet/flux1-dev-Q4_K_S.gguf"),
+         "/kaggle/working/ComfyUI-TPU/models/unet/flux1-dev-Q4_K_S.gguf"),
         ("/kaggle/input/aldebodobasexl_v3mini/tensorflow2/default/1/albedobaseXL_v3Mini.safetensors",
-         "/kaggle/working/ComfyUI/models/checkpoints/albedobaseXL_v3Mini.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/checkpoints/albedobaseXL_v3Mini.safetensors"),
         ("/kaggle/input/alimama-flux-turbo-lora/pytorch/default/1/diffusion_pytorch_model.safetensors",
-         "/kaggle/working/ComfyUI/models/loras/alimama-flux-turbo-lora.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/loras/alimama-flux-turbo-lora.safetensors"),
         ("/kaggle/input/fluxartfusion4steps_v12/pytorch/default/1/fluxArtfusion4Steps_v12.safetensors",
-         "/kaggle/working/ComfyUI/models/checkpoints/fluxArtfusion4Steps_v12.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/checkpoints/fluxArtfusion4Steps_v12.safetensors"),
         ("/kaggle/input/clip-vit/pytorch/h-14-laion2b-s32b-b79k/1/pytorch_model.bin",
-         "/kaggle/working/ComfyUI/models/clip_vision/clip_vit_h-14-laion2b-s32b-b79k.bin"),
+         "/kaggle/working/ComfyUI-TPU/models/clip_vision/clip_vit_h-14-laion2b-s32b-b79k.bin"),
         ("/kaggle/input/controlnet-package-hsbd10/pytorch/default/4/controlnet_instantid_model.safetensors",
-         "/kaggle/working/ComfyUI/models/controlnet/instantid/LeInstantID_ControlNet_model.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/controlnet/instantid/LeInstantID_ControlNet_model.safetensors"),
         ("/kaggle/input/instant_id/pytorch/default/2/instantid-ip-adapter.bin",
-         "/kaggle/working/ComfyUI/models/instantid/InstantID_ip_adapter.bin"),
+         "/kaggle/working/ComfyUI-TPU/models/instantid/InstantID_ip_adapter.bin"),
         ("/kaggle/input/instant_id/pytorch/default/2/instantid-ip-adapter.bin",
-         "/kaggle/working/ComfyUI/models/instantid/ip_adapter.bin"),
+         "/kaggle/working/ComfyUI-TPU/models/instantid/ip_adapter.bin"),
         ("/kaggle/input/instant_id/pytorch/default/2/instantid-ip-adapter.bin",
-         "/kaggle/working/ComfyUI/models/instantid/SDXL/ip-adapter.bin"),
+         "/kaggle/working/ComfyUI-TPU/models/instantid/SDXL/ip-adapter.bin"),
         ("/kaggle/input/controlnet-package-hsbd10/pytorch/default/4/controlnet_instantid_model.safetensors",
-         "/kaggle/working/ComfyUI/models/controlnet/instantid/LeInstantID_ControlNet_model.safetensors"),
+         "/kaggle/working/ComfyUI-TPU/models/controlnet/instantid/LeInstantID_ControlNet_model.safetensors"),
         ("/kaggle/input/4xnomosunidat_upscaler/pytorch/default/5/4xnomosunidat_upscaler.safetensors",
-         "/kaggle/working/ComfyUI/models/upscale_models/4xnomosunidat_upscaler.safetensors")
+         "/kaggle/working/ComfyUI-TPU/models/upscale_models/4xnomosunidat_upscaler.safetensors")
     ]
     for src, dest in links:
         xlinkthis(src,dest)
@@ -149,49 +149,49 @@ def link_additional_models():
     # Link models from /kaggle/input/4xnomosunidat_upscaler/pytorch/default/5/
     for x in os.listdir("/kaggle/input/4xnomosunidat_upscaler/pytorch/default/5/"):
         print(x)
-        xlinkthis(f"/kaggle/input/4xnomosunidat_upscaler/pytorch/default/5/{x}", f"/kaggle/working/ComfyUI/models/upscale_models/{x}")
+        xlinkthis(f"/kaggle/input/4xnomosunidat_upscaler/pytorch/default/5/{x}", f"/kaggle/working/ComfyUI-TPU/models/upscale_models/{x}")
 
     # Link models from /kaggle/input/t5_xxl_gguf_models/pytorch/default/1/
     for x in os.listdir("/kaggle/input/t5_xxl_gguf_models/pytorch/default/1/"):
         print(x)
-        xlinkthis(f"/kaggle/input/t5_xxl_gguf_models/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI/models/clip/{x}")
+        xlinkthis(f"/kaggle/input/t5_xxl_gguf_models/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI-TPU/models/clip/{x}")
 
     # Link models from /kaggle/input/sdxl_controlnets/pytorch/default/3/
     for x in os.listdir("/kaggle/input/sdxl_controlnets/pytorch/default/3/"):
         print(x)
-        xlinkthis(f"/kaggle/input/sdxl_controlnets/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI/models/controlnet/{x}")
+        xlinkthis(f"/kaggle/input/sdxl_controlnets/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI-TPU/models/controlnet/{x}")
         if 'ip-adapter' in x:
-            xlinkthis(f"/kaggle/input/sdxl_controlnets/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI/models/ipadapter/{x}")
+            xlinkthis(f"/kaggle/input/sdxl_controlnets/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI-TPU/models/ipadapter/{x}")
 
     # Link models from /kaggle/input/pulid-model/pytorch/default/3/
     for x in os.listdir("/kaggle/input/pulid-model/pytorch/default/3/"):
         print(x)
-        xlinkthis(f"/kaggle/input/pulid-model/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI/models/pulid/{x}")
+        xlinkthis(f"/kaggle/input/pulid-model/pytorch/default/3/{x}", f"/kaggle/working/ComfyUI-TPU/models/pulid/{x}")
 
     for x in os.listdir("/kaggle/input/instant_id/pytorch/default/2"):
         print(x)
-        xlinkthis(f"/kaggle/input/instant_id/pytorch/default/2/{x}", f"/kaggle/working/ComfyUI/models/controlnet/{x}")
+        xlinkthis(f"/kaggle/input/instant_id/pytorch/default/2/{x}", f"/kaggle/working/ComfyUI-TPU/models/controlnet/{x}")
         #/kaggle/input/instant_id/pytorch/default/2
     
     for x in os.listdir("/kaggle/input/controlnet-package-hsbd10/pytorch/default/4/"):
         print(x)
-        xlinkthis(f"/kaggle/input/controlnet-package-hsbd10/pytorch/default/4/{x}", f"/kaggle/working/ComfyUI/models/controlnet/{x}")
+        xlinkthis(f"/kaggle/input/controlnet-package-hsbd10/pytorch/default/4/{x}", f"/kaggle/working/ComfyUI-TPU/models/controlnet/{x}")
     
     
     for x in os.listdir("/kaggle/input/dmd2/pytorch/default/1"):
         print(x)
         if 'lora' in x:
-            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI/models/loras/{x}")
+            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI-TPU/models/loras/{x}")
         elif 'unet' in x.lower():
-            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI/models/unet/{x}")
+            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI-TPU/models/unet/{x}")
         else:
-            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI/models/checkpoints/{x}")
+            xlinkthis(f"/kaggle/input/dmd2/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI-TPU/models/checkpoints/{x}")
 
     # /kaggle/input/juggernaut/pytorch/default/1
 
     for x in os.listdir("/kaggle/input/juggernaut/pytorch/default/1/"):
         print(x)
-        xlinkthis(f"/kaggle/input/juggernaut/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI/models/checkpoints/{x}")
+        xlinkthis(f"/kaggle/input/juggernaut/pytorch/default/1/{x}", f"/kaggle/working/ComfyUI-TPU/models/checkpoints/{x}")
         
     # /kaggle/input/controlnet-package-hsbd10/pytorch/default/4
     print("="*60, "Additional models linked successfully.", "="*60, sep="\n")
@@ -199,7 +199,7 @@ def link_additional_models():
 def start_comfyui_instances():
     """Start ComfyUI instances."""
     print("="*60, "Starting ComfyUI instances...", "-"*60, sep="\n")
-    # os.chdir("/kaggle/working/ComfyUI/")
+    # os.chdir("/kaggle/working/ComfyUI-TPU/")
     # xP1 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "0", "--port", "8188", "--highvram"])
     # time.sleep(10)
     # xP2 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "1", "--port", "8189", "--highvram"])
@@ -207,7 +207,7 @@ def start_comfyui_instances():
 
     # Change directory to ComfyUI-TPU
     import os
-    os.chdir('/kaggle/working/ComfyUI-TPU')
+    os.chdir('/kaggle/working/ComfyUI-TPU-TPU')
     
     # Run ComfyUI with XLA support
     xP2 = subprocess.run([sys.executable, 'main.py', '--xla'], check=True, text=True)
@@ -218,14 +218,14 @@ def start_comfyui_instances():
 def start_playit_agent():
     """Start the Playit agent."""
     print("="*60, "Starting Playit agent...", "-"*60, sep="\n")
-    os.chdir("/kaggle/working/ComfyUI/")
-    if not os.path.exists('/kaggle/working/ComfyUI/playit-linux-amd64'):
+    os.chdir("/kaggle/working/ComfyUI-TPU/")
+    if not os.path.exists('/kaggle/working/ComfyUI-TPU/playit-linux-amd64'):
         subprocess.run(['wget', 'https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-linux-amd64'])
     subprocess.run(['chmod', '+x', './playit-linux-amd64'])
-    os.makedirs("/kaggle/working/ComfyUI/logs", exist_ok=True)
-    subprocess.Popen("nohup /kaggle/working/ComfyUI/playit-linux-amd64 >> /kaggle/working/ComfyUI/logs/playit.log 2>&1 &", bufsize=0, shell=True)
+    os.makedirs("/kaggle/working/ComfyUI-TPU/logs", exist_ok=True)
+    subprocess.Popen("nohup /kaggle/working/ComfyUI-TPU/playit-linux-amd64 >> /kaggle/working/ComfyUI-TPU/logs/playit.log 2>&1 &", bufsize=0, shell=True)
     time.sleep(10)
-    xresult = subprocess.run(['tail', '-n', '20', '/kaggle/working/ComfyUI/logs/playit.log'] ,capture_output=True,text=True)
+    xresult = subprocess.run(['tail', '-n', '20', '/kaggle/working/ComfyUI-TPU/logs/playit.log'] ,capture_output=True,text=True)
     print(xresult.stdout,xresult.stderr,sep='\n'+'.'*10)
     print("","="*60, "Playit agent started successfully.", "-"*60, sep="\n")
 
@@ -245,7 +245,7 @@ def scheduler():
 # def down_antelope():
 #     # Define the URL and the target directory
 #     url = "https://github.com/deepinsight/insightface/releases/download/v0.7/antelopev2.zip"
-#     target_dir = "/kaggle/working/ComfyUI/models/insightface/models/antelopev2/"
+#     target_dir = "/kaggle/working/ComfyUI-TPU/models/insightface/models/antelopev2/"
     
 #     # Create target directory if it doesn't exist
 #     os.makedirs(target_dir, exist_ok=True)
@@ -270,7 +270,7 @@ def scheduler():
 def down_antelope():
     # Define the URL and the target directory
     url = "https://github.com/deepinsight/insightface/releases/download/v0.7/antelopev2.zip"
-    target_dir = "/kaggle/working/ComfyUI/models/insightface/models/"
+    target_dir = "/kaggle/working/ComfyUI-TPU/models/insightface/models/"
     
     # Create target directory if it doesn't exist
     os.makedirs(target_dir, exist_ok=True)
@@ -316,10 +316,10 @@ def down_antelope():
 # ===============================================
 # def down_landmark():
 #     subprocess.Popen("apt install aria2 -qq", bufsize=0, shell=True)
-#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/bluefoxcreation/FaceAlignment/resolve/main/fan2_68_landmark.onnx?download=true -d /kaggle/working/ComfyUI/models/landmarks -o fan2_68_landmark.onnx", bufsize=0, shell=True)
-#     subprocess.Popen("aria2c  --console-log-level=error -c  -x16 -s16 -j5  -k 1M 'https://drive.google.com/uc?id=154JgKpzCPW82qINcVieuPH3fZ2e0P812&export=download'  -d /kaggle/working/ComfyUI/models/bisenet -o 79999_iter.pth", bufsize=0, shell=True)
-#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8m.pt?download=true  -d /kaggle/working/ComfyUI/models/ultralytics/bbox -o face_yolov8m.pt", bufsize=0, shell=True)
-#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_inpaint_fp16.safetensors?download=true -d /kaggle/working/ComfyUI/models/controlnet/ -o control_v11p_sd15_inpaint_fp16.safetensors", bufsize=0, shell=True)
+#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/bluefoxcreation/FaceAlignment/resolve/main/fan2_68_landmark.onnx?download=true -d /kaggle/working/ComfyUI-TPU/models/landmarks -o fan2_68_landmark.onnx", bufsize=0, shell=True)
+#     subprocess.Popen("aria2c  --console-log-level=error -c  -x16 -s16 -j5  -k 1M 'https://drive.google.com/uc?id=154JgKpzCPW82qINcVieuPH3fZ2e0P812&export=download'  -d /kaggle/working/ComfyUI-TPU/models/bisenet -o 79999_iter.pth", bufsize=0, shell=True)
+#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8m.pt?download=true  -d /kaggle/working/ComfyUI-TPU/models/ultralytics/bbox -o face_yolov8m.pt", bufsize=0, shell=True)
+#     subprocess.Popen("aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_inpaint_fp16.safetensors?download=true -d /kaggle/working/ComfyUI-TPU/models/controlnet/ -o control_v11p_sd15_inpaint_fp16.safetensors", bufsize=0, shell=True)
 #     print("Download and extraction completed for landmark and bbox and sd15 inpaint.")
 
 # ===============================================
@@ -337,22 +337,22 @@ def down_landmark():
     downloads = [
         {
             "url": "https://huggingface.co/bluefoxcreation/FaceAlignment/resolve/main/fan2_68_landmark.onnx?download=true",
-            "dir": "/kaggle/working/ComfyUI/models/landmarks",
+            "dir": "/kaggle/working/ComfyUI-TPU/models/landmarks",
             "output": "fan2_68_landmark.onnx"
         },
         {
             "url": "https://drive.google.com/uc?id=154JgKpzCPW82qINcVieuPH3fZ2e0P812&export=download",
-            "dir": "/kaggle/working/ComfyUI/models/bisenet",
+            "dir": "/kaggle/working/ComfyUI-TPU/models/bisenet",
             "output": "79999_iter.pth"
         },
         {
             "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8m.pt?download=true",
-            "dir": "/kaggle/working/ComfyUI/models/ultralytics/bbox",
+            "dir": "/kaggle/working/ComfyUI-TPU/models/ultralytics/bbox",
             "output": "face_yolov8m.pt"
         },
         {
             "url": "https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_inpaint_fp16.safetensors?download=true",
-            "dir": "/kaggle/working/ComfyUI/models/controlnet/",
+            "dir": "/kaggle/working/ComfyUI-TPU/models/controlnet/",
             "output": "control_v11p_sd15_inpaint_fp16.safetensors"
         }
     ]
@@ -393,7 +393,7 @@ def main():
     
 
     # Example usage of zip_folder
-    folder_to_zip = '/kaggle/working/ComfyUI/output'
+    folder_to_zip = '/kaggle/working/ComfyUI-TPU/output'
     if os.path.exists(folder_to_zip):
         output_zip = f'/kaggle/working/output_{datetime.now():%d%m%Y_%H%M}.zip'
         zip_folder(folder_to_zip, output_zip)
