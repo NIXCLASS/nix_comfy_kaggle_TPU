@@ -208,7 +208,7 @@ def start_comfyui_instances():
 
     # Change directory to ComfyUI-TPU
     import os
-    os.chdir('/kaggle/working/ComfyUI-TPU-TPU')
+    os.chdir('/kaggle/working/ComfyUI-TPU')
     
     # Run ComfyUI with XLA support
     xP2 = subprocess.run([sys.executable, 'main.py', '--xla'], check=True, text=True)
