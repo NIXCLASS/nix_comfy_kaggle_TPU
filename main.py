@@ -392,10 +392,10 @@ def main():
     # subprocess.run([sys.executable, '-m', 'pip', 'install', 'torch~=2.5.0', 'torch_xla[tpu]~=2.5.0', '-f', 'https://storage.googleapis.com/libtpu-releases/index.html'], check=True, text=True, capture_output=True)
      
     # First command
-    subprocess.run([
-        sys.executable, '-m', 'uv', 'pip', 'install', '--system','--pre', 'torch', 'torchvision','-q',
-        '--index-url', 'https://download.pytorch.org/whl/nightly/cpu'
-    ], check=True)
+    # subprocess.run([
+    #     sys.executable, '-m', 'uv', 'pip', 'install', '--system','--pre', 'torch', 'torchvision','-q',
+    #     '--index-url', 'https://download.pytorch.org/whl/nightly/cpu'
+    # ], check=True)
     
     # Second command
     # subprocess.run([
@@ -404,13 +404,21 @@ def main():
     #     '-f', 'https://storage.googleapis.com/libtpu-releases/index.html'
     # ], check=True)
 
+    # subprocess.run([
+    #         sys.executable, '-m', 'uv', 'pip', 'install',
+    #         'torch_xla[tpu] @ https://storage.googleapis.com/pytorch-xla-releases/wheels/tpuvm/torch_xla-2.6.0.dev-cp310-cp310-linux_x86_64.whl',
+    #         '-f', 'https://storage.googleapis.com/libtpu-releases/index.html','-q',
+    #         '--system'
+    #     ], check=True, capture_output=True, text=True)
+
     subprocess.run([
-            sys.executable, '-m', 'uv', 'pip', 'install',
-            'torch_xla[tpu] @ https://storage.googleapis.com/pytorch-xla-releases/wheels/tpuvm/torch_xla-2.6.0.dev-cp310-cp310-linux_x86_64.whl',
-            '-f', 'https://storage.googleapis.com/libtpu-releases/index.html','-q',
-            '--system'
+            sys.executable, '-m',  'uv', 'pip', 'install',
+            'torch~=2.6.0', 'torch_xla[tpu]~=2.6.0',
+            '-f', 'https://storage.googleapis.com/libtpu-releases/index.html',
+            '-f', 'https://storage.googleapis.com/libtpu-wheels/index.html','-q', '--system'
         ], check=True, capture_output=True, text=True)
-    
+    print("torch and torch_xla[tpu] installed successfully.")
+
     print("torch_xla[tpu] installed successfully.")
 
     # Clone ComfyUI-TPU repository
