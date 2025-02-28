@@ -388,7 +388,7 @@ def main():
     subprocess.run([sys.executable, '-m', 'pip', 'install', 'torch~=2.5.0', 'torch_xla[tpu]~=2.5.0', '-f', 'https://storage.googleapis.com/libtpu-releases/index.html'], check=True, text=True, capture_output=True)
     
     # Clone ComfyUI-TPU repository
-    subprocess.run(['git', 'clone', 'https://github.com/radna0/ComfyUI-TPU.git'], check=True, text=True, capture_output=True)
+    # subprocess.run(['git', 'clone', 'https://github.com/radna0/ComfyUI-TPU.git'], check=True, text=True, capture_output=True)
     
     
 
