@@ -199,11 +199,20 @@ def link_additional_models():
 def start_comfyui_instances():
     """Start ComfyUI instances."""
     print("="*60, "Starting ComfyUI instances...", "-"*60, sep="\n")
-    os.chdir("/kaggle/working/ComfyUI/")
-    xP1 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "0", "--port", "8188", "--highvram"])
+    # os.chdir("/kaggle/working/ComfyUI/")
+    # xP1 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "0", "--port", "8188", "--highvram"])
+    # time.sleep(10)
+    # xP2 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "1", "--port", "8189", "--highvram"])
+    # time.sleep(10)
+
+    # Change directory to ComfyUI-TPU
+    import os
+    os.chdir('/kaggle/working/ComfyUI-TPU')
+    
+    # Run ComfyUI with XLA support
+    xP2 = subprocess.run([sys.executable, 'main.py', '--xla'], check=True, text=True)
     time.sleep(10)
-    xP2 = subprocess.Popen([sys.executable, "main.py", "--cuda-device", "1", "--port", "8189", "--highvram"])
-    time.sleep(10)
+    
     print("="*60, "ComfyUI instances started successfully.", "-"*60, sep="\n")
 
 def start_playit_agent():
@@ -374,6 +383,14 @@ def main():
     # Install uv
     print("="*60, "Installing uv...", "-"*60, sep="\n")
     subprocess.run([sys.executable, '-m', 'pip', 'install', '-U', 'pip', 'uv', '-q'], check=True, text=True, capture_output=True)
+
+    # Install required dependencies for TPU support
+    subprocess.run([sys.executable, '-m', 'pip', 'install', 'torch~=2.5.0', 'torch_xla[tpu]~=2.5.0', '-f', 'https://storage.googleapis.com/libtpu-releases/index.html'], check=True, text=True, capture_output=True)
+    
+    # Clone ComfyUI-TPU repository
+    subprocess.run(['git', 'clone', 'https://github.com/radna0/ComfyUI-TPU.git'], check=True, text=True, capture_output=True)
+    
+    
 
     # Example usage of zip_folder
     folder_to_zip = '/kaggle/working/ComfyUI/output'
