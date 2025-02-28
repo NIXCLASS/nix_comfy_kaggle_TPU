@@ -66,7 +66,8 @@ def setup_comfyui():
     print("="*60, "Starting to set up ComfyUI...", "-"*60, sep="\n")
     os.chdir("/kaggle/working")
     if not os.path.exists("/kaggle/working/ComfyUI-TPU/") or not os.path.exists("/kaggle/working/ComfyUI-TPU/requirements.txt") :
-        subprocess.run(['git', 'clone', 'https://github.com/comfyanonymous/ComfyUI.git', '--recursive'], check=True, text=True, capture_output=True)
+        # subprocess.run(['git', 'clone', 'https://github.com/comfyanonymous/ComfyUI.git', '--recursive'], check=True, text=True, capture_output=True)
+        subprocess.run(['git', 'clone', 'https://github.com/radna0/ComfyUI-TPU.git'], check=True, text=True, capture_output=True)
     os.chdir("/kaggle/working/ComfyUI-TPU")
     subprocess.run(['git', 'pull', '--all'])
     subprocess.run(['uv','pip', 'install', '--system', '-r', 'requirements.txt', '--quiet'])
